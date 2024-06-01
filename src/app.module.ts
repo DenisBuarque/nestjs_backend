@@ -5,6 +5,7 @@ import { UserModule } from './user/user.module';
 import { ConfigModule } from '@nestjs/config';
 import { AuthModule } from './auth/auth.module';
 import { ThrottlerModule } from '@nestjs/throttler';
+import { FileModule } from './file/file.module';
 
 @Module({
   imports: [
@@ -15,6 +16,7 @@ import { ThrottlerModule } from '@nestjs/throttler';
     }]),
     forwardRef(() => UserModule),
     forwardRef(() => AuthModule),
+    FileModule,
   ],
   controllers: [AppController],
   providers: [AppService],
