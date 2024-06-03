@@ -1,5 +1,6 @@
 import {
   IsDate,
+  IsDefined,
   IsEmail,
   IsEnum,
   IsNotEmpty,
@@ -7,10 +8,12 @@ import {
   IsString,
   IsStrongPassword,
   MaxLength,
+  isDefined,
 } from 'class-validator';
 import { Role } from 'src/enums/role.enum';
 
 export class CreateUserDto {
+
   @IsString()
   @MaxLength(50)
   @IsNotEmpty()
@@ -31,13 +34,13 @@ export class CreateUserDto {
   @IsOptional()
   @IsString()
   @IsEnum(Role)
-  readonly role: string
+  readonly role: Role
 
   @IsOptional()
   @IsDate()
-  readonly createdAt: Date
+  readonly createdAt?: Date
 
   @IsOptional()
   @IsDate()
-  updatedAt: Date
+  updatedAt?: Date
 }

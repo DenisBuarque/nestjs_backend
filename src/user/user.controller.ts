@@ -7,6 +7,8 @@ import { Roles } from 'src/decorators/role.decorator';
 import { RolesGuard } from 'src/guards/roles.guard';
 import { AuthGuard } from 'src/guards/auth.guard';
 import { ThrottlerGuard } from '@nestjs/throttler';
+import { UserEntity } from './entities/user.entity';
+import { UpdateResult } from 'typeorm';
 
 @UseGuards(ThrottlerGuard, AuthGuard, RolesGuard)
 @Roles(Role.Admin)
@@ -15,22 +17,23 @@ export class UserController {
   constructor(private readonly userService: UserService) {}
 
   @Post()
-  async create(@Body() data: CreateUserDto) {
+  async create(@Body() data: CreateUserDto): Promise<UserEntity> {
     return await this.userService.create(data);
   }
 
+  
   @Get()
-  async findAll() {
+  async findAll(): Promise<UserEntity[]> {
     return await this.userService.findAll();
   }
 
   @Get(':id')
-  async findOne(@Param('id', ParseIntPipe) id: number) {
+  async findOne(@Param('id', ParseIntPipe) id: number): Promise<UserEntity> {
     return await this.userService.findOne(id);
   }
 
   @Patch(':id')
-  async update(@Param('id', ParseIntPipe) id: number, @Body() data: UpdateUserDto) {
+  async update(@Param('id', ParseIntPipe) id: number, @Body() data: UpdateUserDto): Promise<UpdateResult> {
     return await this.userService.update(id, data);
   }
 
@@ -38,4 +41,5 @@ export class UserController {
   async remove(@Param('id', ParseIntPipe) id: number) {
     return await this.userService.remove(id);
   }
+
 }

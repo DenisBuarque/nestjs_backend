@@ -6,23 +6,27 @@ import {
 } from '@nestjs/common';
 import { CreateAuthDto } from './dto/create-auth.dto';
 import { JwtService } from '@nestjs/jwt';
-import { PrismaService } from 'src/prisma/prisma.service';
+
 import { CreateForgetDto } from './dto/create-forget.dto';
 import { CreateResetDto } from './dto/create-reset.dto';
-import { User } from '@prisma/client';
+
 import { UserService } from 'src/user/user.service';
 import { CreateRegisterDto } from './dto/create-register.dto';
 import * as bcrypt from 'bcrypt';
+import { UserEntity } from 'src/user/entities/user.entity';
+import { InjectRepository } from '@nestjs/typeorm';
+import { Repository } from 'typeorm';
 
 @Injectable()
 export class AuthService {
   constructor(
+    @InjectRepository(UserEntity)
+    private userRepository: Repository<UserEntity>,
     private readonly jwtService: JwtService,
-    private readonly pirsmaService: PrismaService,
     private readonly userService: UserService,
   ) {}
 
-  async createToken(user: User) {
+  async createToken(user: UserEntity) {
     return {
       token: this.jwtService.sign(
         {
@@ -62,7 +66,7 @@ export class AuthService {
   }
 
   async login(data: CreateAuthDto) {
-    const user = await this.pirsmaService.user.findFirst({
+    const user = await this.userRepository.findOne({
       where: {
         email: data.email,
       },
@@ -77,7 +81,7 @@ export class AuthService {
   }
 
   async forget(data: CreateForgetDto) {
-    const email = await this.pirsmaService.user.findUnique({
+    const email = await this.userRepository.findOne({
       where: { email: data.email },
     });
 
@@ -91,20 +95,18 @@ export class AuthService {
   async reset(data: CreateResetDto) {
     // To do: token validat
 
-    const user = await this.pirsmaService.user.update({
-      where: {
-        id: 1,
-      },
+    /*const user = await this.userRepository.update(id, {
       data: {
         password: data.password,
       },
     });
 
-    return await this.createToken(user);
+    return await this.createToken(user);*/
   }
 
   async register(data: CreateRegisterDto) {
-    const user = await this.userService.create(data);
-    return await this.createToken(user);
+    /*const user = await this.userRepository.create(data);
+    return await this.createToken(user);*/
   }
+
 }

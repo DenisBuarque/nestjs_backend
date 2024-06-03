@@ -21,7 +21,6 @@ import { AuthGuard } from 'src/guards/auth.guard';
 import { Throttle, ThrottlerGuard } from '@nestjs/throttler';
 import { FileInterceptor, FilesInterceptor } from '@nestjs/platform-express';
 import { FileService } from 'src/file/file.service';
-import { Request } from 'express';
 import { join } from 'path';
 
 @UseGuards(ThrottlerGuard)
@@ -32,6 +31,7 @@ export class AuthController {
     private readonly fileService: FileService,
   ) {}
 
+  
   @UseGuards(AuthGuard)
   @Post('upload')
   @UseInterceptors(FileInterceptor('file'))
