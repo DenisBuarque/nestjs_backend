@@ -5,11 +5,8 @@ import { UserModule } from './user/user.module';
 import { ConfigModule } from '@nestjs/config';
 import { AuthModule } from './auth/auth.module';
 import { ThrottlerModule } from '@nestjs/throttler';
-import { FileModule } from './file/file.module';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { UserEntity } from './user/entities/user.entity';
 import { FilesModule } from './files/files.module';
-import { FileEntity } from './files/entities/file.entity';
 
 @Module({
   imports: [
@@ -31,7 +28,6 @@ import { FileEntity } from './files/entities/file.entity';
     }]),
     forwardRef(() => UserModule),
     forwardRef(() => AuthModule),
-    FileModule,
     FilesModule,
   ],
   controllers: [AppController],

@@ -16,12 +16,12 @@ import { UpdateResult } from 'typeorm';
 export class UserController {
   constructor(private readonly userService: UserService) {}
 
+  @UseGuards(AuthGuard)
   @Post()
   async create(@Body() data: CreateUserDto): Promise<UserEntity> {
     return await this.userService.create(data);
   }
 
-  
   @Get()
   async findAll(): Promise<UserEntity[]> {
     return await this.userService.findAll();

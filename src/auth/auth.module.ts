@@ -3,7 +3,6 @@ import { AuthService } from './auth.service';
 import { AuthController } from './auth.controller';
 import { UserModule } from 'src/user/user.module';
 import { JwtModule } from '@nestjs/jwt';
-import { FileModule } from 'src/file/file.module';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { UserEntity } from 'src/user/entities/user.entity';
 
@@ -11,7 +10,6 @@ import { UserEntity } from 'src/user/entities/user.entity';
   imports:[
     forwardRef(() => UserModule),
     TypeOrmModule.forFeature([UserEntity]),
-    FileModule,
     JwtModule.register({
       global: true,
       secret: String(process.env.JWT_SECRET),

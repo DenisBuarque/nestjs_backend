@@ -10,13 +10,13 @@ import {
   UploadedFile,
   Req,
   UploadedFiles,
+  UseGuards,
 } from '@nestjs/common';
 import { FilesService } from './files.service';
 import { CreateFileDto } from './dto/create-file.dto';
 import { UpdateFileDto } from './dto/update-file.dto';
 import { FileFieldsInterceptor, FileInterceptor } from '@nestjs/platform-express';
 import multerConfig from './multer-config';
-import { join } from 'path';
 
 @Controller('files')
 export class FilesController {

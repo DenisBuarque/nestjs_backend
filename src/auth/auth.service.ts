@@ -1,6 +1,5 @@
 import {
   BadRequestException,
-  Headers,
   Injectable,
   UnauthorizedException,
 } from '@nestjs/common';
@@ -23,7 +22,6 @@ export class AuthService {
     @InjectRepository(UserEntity)
     private userRepository: Repository<UserEntity>,
     private readonly jwtService: JwtService,
-    private readonly userService: UserService,
   ) {}
 
   async createToken(user: UserEntity) {
