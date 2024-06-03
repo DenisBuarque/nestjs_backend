@@ -8,6 +8,7 @@ import { ThrottlerModule } from '@nestjs/throttler';
 import { FileModule } from './file/file.module';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { UserEntity } from './user/entities/user.entity';
+import { FilesModule } from './files/files.module';
 
 @Module({
   imports: [
@@ -30,6 +31,7 @@ import { UserEntity } from './user/entities/user.entity';
     forwardRef(() => UserModule),
     forwardRef(() => AuthModule),
     FileModule,
+    FilesModule,
   ],
   controllers: [AppController],
   providers: [AppService],
