@@ -1,27 +1,44 @@
-import { Injectable } from '@nestjs/common';
+import { BadRequestException, Injectable } from '@nestjs/common';
 import { CreateFileDto } from './dto/create-file.dto';
 import { UpdateFileDto } from './dto/update-file.dto';
 import { InjectRepository } from '@nestjs/typeorm';
 import { FileEntity } from './entities/file.entity';
 import { Repository } from 'typeorm';
 import { Request } from 'express';
+import { writeFile } from 'fs/promises';
 
 @Injectable()
 export class FilesService {
-
   constructor(
     @InjectRepository(FileEntity)
     private fotoRepository: Repository<FileEntity>,
   ) {}
 
   async salvarFile(file: Express.Multer.File, req: Request) {
-    const photo = new FileEntity();
-    photo.fileName = file.filename;
-    photo.contentLength = file.size;
-    photo.contentType = file.mimetype;
-    photo.url = `http://localhost:3000/files/${file.filename}`;
+    try {
+      const photo = new FileEntity();
+      photo.fileName = file.filename;
+      photo.contentLength = file.size;
+      photo.url = `http://localhost:3000/stotage/images/${file.filename}`;
 
-    return await this.fotoRepository.save(photo);
+      return await this.fotoRepository.save(photo);
+    } catch (error) {
+      throw new BadRequestException('Ocorreu um erro ao enviar sua imagem!');
+    }
+  }
+
+  async salvarVariosDados(files: Express.Multer.File[], req: Request) {
+    const arrayArquivos = files.map((file) => {
+      const photo = new FileEntity();
+      photo.fileName = file.filename;
+      photo.contentLength = file.size;
+      photo.url = `http://localhost:3000/stotage/images/photos/${
+        file.filename
+      }`;
+      return photo;
+    });
+
+    return await this.fotoRepository.save(arrayArquivos);
   }
 
   create(createFileDto: CreateFileDto) {

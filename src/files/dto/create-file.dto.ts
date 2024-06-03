@@ -11,10 +11,6 @@ export class CreateFileDto {
 
     @IsString()
     @IsNotEmpty()
-    readonly contentType: string
-
-    @IsString()
-    @IsNotEmpty()
     readonly url: string
 
     @IsOptional()

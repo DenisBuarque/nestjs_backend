@@ -11,9 +11,6 @@ export class FileEntity {
     @Column({type: 'int', name: 'contentLength', nullable: false})
     contentLength: number
 
-    @Column({type: 'varchar', name: 'contentType', nullable: false})
-    contentType: string
-
     @Column({type: 'varchar', name: 'url', nullable: false})
     url: string
 
